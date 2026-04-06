@@ -1,0 +1,32 @@
+/* AUMENTAR HEADER */
+.header {
+  height: 80px;
+  padding: 0 40px;
+}
+
+/* TÍTULO MAIOR */
+.titulo-app {
+  font-size: 30px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* IMAGEM PRINCIPAL */
+.img-lixo {
+  width: 100%;
+  max-width: 320px;
+}
+
+/* ESPAÇAMENTO DOS CARDS */
+.card-custom {
+  padding: 20px;
+}
+
+table {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+thead {
+  font-weight: bold;
+}

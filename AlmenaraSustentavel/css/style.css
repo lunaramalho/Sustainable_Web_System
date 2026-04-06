@@ -1,0 +1,154 @@
+:root {
+  --primary: #2E7D32;
+  --primary-light: #66BB6A;
+  --background: #F4F6F8;
+  --white: #FFFFFF;
+  --text: #333;
+  --gray: #777;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY (VERDINHO SUAVE) */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #E8F5E9, #F4F6F8);
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed;
+  width: 230px;
+  height: 100%;
+  padding: 20px;
+  color: white;
+  transition: 0.3s;
+
+  background: linear-gradient(180deg, #2E7D32, #1B5E20);
+  backdrop-filter: blur(10px);
+}
+
+/* LOGO */
+.logo {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* MENU */
+.menu a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+/* HOVER */
+.menu a:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/* ATIVO */
+.menu a.active {
+  background: white;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* HEADER */
+.header {
+  margin-left: 230px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow);
+}
+
+.titulo-app {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* CONTENT */
+.content {
+  margin-left: 230px;
+  padding: 30px;
+}
+
+/* CARDS */
+.card-custom {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.card-custom:hover {
+  transform: translateY(-5px);
+}
+
+/* BOTÃO */
+.btn-custom {
+  background: var(--primary);
+  color: white;
+  padding: 12px 25px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-custom:hover {
+  background: var(--primary-light);
+}
+
+/* IMAGEM */
+.img-lixo {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 15px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+
+  .sidebar {
+    left: -100%;
+    position: absolute;
+    z-index: 1000;
+  }
+
+  .sidebar.active {
+    left: 0;
+  }
+
+  .header {
+    margin-left: 0;
+  }
+
+  .content {
+    margin-left: 0;
+    padding: 20px;
+  }
+
+  .img-lixo {
+    margin-bottom: 20px;
+  }
+}

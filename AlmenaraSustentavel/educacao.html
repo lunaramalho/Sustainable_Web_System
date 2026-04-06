@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Educação Ambiental - Almenara Sustentável</title>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+
+  <div class="logo">
+     <span>Menu</span>
+  </div>
+
+  <nav class="menu">
+    <a href="index.html">🏠 <span>Início</span></a>
+    <a href="cadastro.html">👤 <span>Cadastro</span></a>
+    <a href="pontos.html">♻️ <span>Coleta</span></a>
+    <a href="educacao.html" class="active">📚 <span>Educação</span></a>
+    <a href="contato.html">📞 <span>Contato</span></a>
+  </nav>
+
+</div>
+
+<!-- HEADER -->
+<div class="header">
+
+  <div class="d-flex align-items-center gap-3">
+    <button class="btn btn-success d-md-none" onclick="toggleMenu()">☰</button>
+    <img src="imagens/bandeiraAlmenara.png" width="45">
+    <h2 class="mb-0 titulo-app">Almenara Sustentável</h2>
+  </div>
+
+  <img src="imagens/simboloReciclagem.png" width="40">
+
+</div>
+
+<!-- CONTENT -->
+<div class="content">
+
+  <!-- HERO -->
+  <div class="card-custom mb-4 text-center">
+    <h2 class="fw-bold text-success">🌱 Educação Ambiental</h2>
+    <p class="text-muted">
+      Pequenas atitudes fazem uma grande diferença. Aprenda como contribuir para um futuro mais sustentável.
+    </p>
+  </div>
+
+  <!-- SEÇÃO 1 -->
+  <div class="row">
+
+    <div class="col-md-6">
+      <div class="card-custom h-100">
+        <h5 class="fw-bold text-success">Para que serve a coleta seletiva?</h5>
+        <p class="text-muted">
+          A coleta seletiva permite separar os resíduos corretamente, facilitando a reciclagem
+          e reduzindo o impacto ambiental. Isso ajuda a preservar recursos naturais e diminuir a poluição.
+        </p>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card-custom h-100">
+        <h5 class="fw-bold text-success">Por que ela é importante?</h5>
+        <p class="text-muted">
+          Reduz a quantidade de lixo nos aterros, evita contaminação do solo e da água,
+          além de contribuir para um planeta mais limpo e saudável.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SEÇÃO 2 -->
+  <div class="row mt-3">
+
+    <div class="col-md-6">
+      <div class="card-custom h-100">
+        <h5 class="fw-bold text-success">O que pode ser reciclado?</h5>
+        <ul class="text-muted">
+          <li>Papel e papelão</li>
+          <li>Plástico</li>
+          <li>Vidro</li>
+          <li>Metal</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card-custom h-100">
+        <h5 class="fw-bold text-success">O que não pode ser reciclado?</h5>
+        <ul class="text-muted">
+          <li>Papel higiênico</li>
+          <li>Restos de comida</li>
+          <li>Fraldas descartáveis</li>
+          <li>Materiais contaminados</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DESTAQUE -->
+  <div class="card-custom mt-4 text-center">
+    <h5 class="fw-bold text-success">💡 Dica importante</h5>
+    <p class="text-muted">
+      Sempre lave embalagens antes de descartar e separe os materiais corretamente.
+      Isso facilita o processo de reciclagem e evita odores desagradáveis.
+    </p>
+  </div>
+
+  <!-- FAQ -->
+  <div class="card-custom mt-4">
+
+    <h5 class="fw-bold text-success mb-3">Dúvidas Frequentes</h5>
+
+    <div class="mb-3">
+      <strong>Preciso lavar as embalagens?</strong>
+      <p class="text-muted">Sim, isso evita mau cheiro e melhora o processo de reciclagem.</p>
+    </div>
+
+    <div class="mb-3">
+      <strong>Posso misturar recicláveis?</strong>
+      <p class="text-muted">O ideal é separar por tipo para facilitar o trabalho da coleta.</p>
+    </div>
+
+    <div class="mb-3">
+      <strong>Vidro quebrado pode ser reciclado?</strong>
+      <p class="text-muted">Sim, mas deve ser bem embalado para evitar acidentes.</p>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+</script>
+
+</body>
+</html>
