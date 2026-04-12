@@ -1,0 +1,27 @@
+{
+  "name": "projeto_sustentavel",
+  "version": "1.0.0",
+  "description": "Sistema de gestão sustentável para Almenara",
+  "main": "backend/server.js",
+  "scripts": {
+  "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lunaramalho/Sustainable_Web_System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lunaramalho/Sustainable_Web_System/issues"
+  },
+  "homepage": "https://github.com/lunaramalho/Sustainable_Web_System#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
