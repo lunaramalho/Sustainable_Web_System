@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Meu Perfil - Almenara Sustentável</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="sidebar" id="sidebar">
+  <div class="logo">
+    <span>Menu</span>
+  </div>
+  <nav class="menu">
+    <a href="index.html">🏠 <span>Início</span></a>
+    <a href="perfil.html" class="active">👤 <span>Meu Perfil</span></a>
+    <a href="pontos.html">♻️ <span>Coleta</span></a>
+    <a href="educacao.html">📚 <span>Educação</span></a>
+    <a href="contato.html">📞 <span>Contato</span></a>
+  </nav>
+</div>
+
+<div class="header d-flex justify-content-between align-items-center">
+  <div class="d-flex align-items-center gap-3">
+    <button class="btn btn-success d-md-none" onclick="toggleMenu()">☰</button>
+    <img src="imagens/bandeiraAlmenara.png" width="45" alt="Bandeira de Almenara">
+    <h2 class="mb-0 titulo-app">Almenara Sustentável</h2>
+  </div>
+  <a href="index.html" class="btn btn-outline-danger btn-sm">Sair</a>
+</div>
+
+<div class="content">
+  <h2 class="fw-bold text-success mb-4">Painel do Usuário</h2>
+
+  <div class="row align-items-start">
+    
+    <div class="col-md-5 mb-4">
+      <div class="card-custom border shadow-sm">
+        <div class="text-center mb-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#2E7D32" class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+          </svg>
+          <h4 class="fw-bold mt-2 mb-0">Ana Laura</h4>
+          <span class="badge bg-success-subtle text-success mt-1">Cidadão Consciente</span>
+        </div>
+
+        <hr class="text-muted">
+
+        <div class="mb-3">
+          <label class="text-muted small d-block">E-mail</label>
+          <span class="fw-semibold">ana.laura@email.com</span>
+        </div>
+        <div class="mb-3">
+          <label class="text-muted small d-block">Telefone</label>
+          <span class="fw-semibold">(33) 99999-1234</span>
+        </div>
+        <div class="mb-3">
+          <label class="text-muted small d-block">Endereço</label>
+          <span class="fw-semibold">Rua das Flores, nº 123</span>
+        </div>
+        <div class="mb-3">
+          <label class="text-muted small d-block">Bairro</label>
+          <span class="fw-semibold">Centro</span>
+        </div>
+
+        <button class="btn btn-success w-100 mt-2">Editar Dados</button>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      
+      <div class="card-custom border shadow-sm mb-4">
+        <h5 class="fw-bold text-success mb-3">➕ Registrar Novo Depósito</h5>
+        
+        <form id="formDeposito" onsubmit="adicionarDeposito(event)">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label for="dataDeposito" class="form-label small fw-semibold">Data do Depósito</label>
+              <input type="date" class="form-control" id="dataDeposito" required>
+            </div>
+            
+            <div class="col-sm-6">
+              <label for="tipoMaterial" class="form-label small fw-semibold">Tipo de Material</label>
+              <select class="form-select" id="tipoMaterial" required>
+                <option value="" selected disabled>Selecione...</option>
+                <option value="Plástico">Plástico</option>
+                <option value="Papel / Papelão">Papel / Papelão</option>
+                <option value="Vidro">Vidro</option>
+                <option value="Metal">Metal</option>
+                <option value="Orgânico Compostável">Orgânico</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <label for="bairroDeposito" class="form-label small fw-semibold">Bairro onde realizou o depósito</label>
+              <input type="text" class="form-control" id="bairroDeposito" placeholder="Ex: Centro, São Pedro..." required>
+            </div>
+
+            <div class="col-12 text-end">
+              <button type="submit" class="btn btn-success px-4">Salvar no Quadro</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card-custom border shadow-sm">
+        <h5 class="fw-bold text-success mb-3">📋 Quadro de Depósitos</h5>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Data</th>
+                <th>Material</th>
+                <th>Bairro</th>
+              </tr>
+            </thead>
+            <tbody id="listaDepositos">
+              <tr>
+                <td>15/05/2026</td>
+                <td>Plástico</td>
+                <td>Centro</td>
+              </tr>
+              <tr>
+                <td>02/05/2026</td>
+                <td>Vidro</td>
+                <td>São Pedro</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleMenu() {
+  document.getElementById("sidebar").classList.toggle("active");
+}
+
+// Função temporária para simular a adição dinâmica no front-end
+function adicionarDeposito(event) {
+  event.preventDefault();
+
+  // Pegando os valores digitados
+  const dataInput = document.getElementById("dataDeposito").value;
+  const material = document.getElementById("tipoMaterial").value;
+  const bairro = document.getElementById("bairroDeposito").value;
+
+  // Formatando a data de AAAA-MM-DD para DD/MM/AAAA
+  const dataFormatada = dataInput.split('-').reverse().join('/');
+
+  // Selecionando a tabela
+  const tabela = document.getElementById("listaDepositos");
+
+  // Criando a nova linha (TR)
+  const novaLinha = document.createElement("tr");
+
+  novaLinha.innerHTML = `
+    <td>${dataFormatada}</td>
+    <td>${material}</td>
+    <td>${bairro}</td>
+  `;
+
+  // Colocando a nova linha no topo do quadro
+  tabela.insertBefore(novaLinha, tabela.firstChild);
+
+  // Limpando o formulário após salvar
+  document.getElementById("formDeposito").reset();
+}
+</script>
+
+</body>
+</html>
