@@ -46,17 +46,19 @@
 
         <div id="login">
           <h4 class="mb-3 fw-bold text-success">Entrar no sistema</h4>
-          <form action="/login" method="POST">
+          
+          <form id="formLogin">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" name="email" class="form-control" placeholder="Digite seu email" required>
+              <input type="email" id="emailLogin" name="email" class="form-control" placeholder="Digite seu email" required>
             </div>
             <div class="mb-3">
               <label class="form-label">Senha</label>
-              <input type="password" name="senha" class="form-control" placeholder="Digite sua senha" required>
+              <input type="password" id="senhaLogin" name="senha" class="form-control" placeholder="Digite sua senha" required>
             </div>
             <button type="submit" class="btn btn-custom w-100">Entrar</button>
           </form>
+          
           <p class="mt-3 text-center">Não tem conta? <a href="#" onclick="mostrarCadastro()">Cadastre-se</a></p>
         </div>
 
@@ -109,6 +111,47 @@ function mostrarLogin() {
   document.getElementById("tabLogin").classList.add("active");
   document.getElementById("tabCadastro").classList.remove("active");
 }
+
+// --- LÓGICA DE COMUNICAÇÃO COM O LARAVEL ---
+const formLogin = document.getElementById('formLogin');
+
+formLogin.addEventListener('submit', async function(evento) {
+    evento.preventDefault(); 
+
+    const emailDigitado = document.getElementById('emailLogin').value;
+    const senhaDigitada = document.getElementById('senhaLogin').value;
+
+    try {
+        const resposta = await fetch('http://127.0.0.1:8000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({ 
+                email: emailDigitado, 
+                password: senhaDigitada 
+            }) 
+        });
+
+        const dados = await resposta.json();
+
+        // Se o login for bem-sucedido
+        if (resposta.ok) {
+            // Salva os dados do usuário no localStorage
+            localStorage.setItem('usuarioLogado', JSON.stringify(dados.usuario));
+            
+            // Redireciona a página para o perfil
+            window.location.href = 'perfil.html';
+        } else {
+            alert("Erro: " + dados.mensagem); 
+        }
+
+    } catch (erro) {
+        alert("Erro de conexão. Certifique-se de que o comando 'php artisan serve' está rodando no Laravel.");
+        console.error(erro);
+    }
+});
 </script>
 </body>
 </html>
