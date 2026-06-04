@@ -11,9 +11,7 @@
 <body>
 
 <div class="sidebar" id="sidebar">
-  <div class="logo">
-    <span>Menu</span>
-  </div>
+  <div class="logo"><span>Menu</span></div>
   <nav class="menu">
     <a href="index.html">🏠 <span>Início</span></a>
     <a href="perfil.html" class="active">👤 <span>Meu Perfil</span></a>
@@ -36,7 +34,6 @@
   <h2 class="fw-bold text-success mb-4">Painel do Usuário</h2>
 
   <div class="row align-items-start">
-    
     <div class="col-md-5 mb-4">
       <div class="card-custom border shadow-sm">
         <div class="text-center mb-3">
@@ -54,17 +51,20 @@
           <label class="text-muted small d-block">E-mail</label>
           <span class="fw-semibold" id="emailUsuario">Carregando...</span>
         </div>
+
         <div class="mb-3">
           <label class="text-muted small d-block">Telefone</label>
-          <span class="fw-semibold">(33) 99999-1234</span>
+          <span class="fw-semibold" id="telefoneUsuario">Carregando...</span>
         </div>
+
         <div class="mb-3">
           <label class="text-muted small d-block">Endereço</label>
-          <span class="fw-semibold">Rua das Flores, nº 123</span>
+          <span class="fw-semibold" id="enderecoUsuario">Carregando...</span>
         </div>
+
         <div class="mb-3">
           <label class="text-muted small d-block">Bairro</label>
-          <span class="fw-semibold">Centro</span>
+          <span class="fw-semibold" id="bairroUsuario">Não informado</span>
         </div>
 
         <button class="btn btn-success w-100 mt-2">Editar Dados</button>
@@ -72,17 +72,16 @@
     </div>
 
     <div class="col-md-7">
-      
       <div class="card-custom border shadow-sm mb-4">
         <h5 class="fw-bold text-success mb-3">➕ Registrar Novo Depósito</h5>
-        
+
         <form id="formDeposito" onsubmit="adicionarDeposito(event)">
           <div class="row g-3">
             <div class="col-sm-6">
               <label for="dataDeposito" class="form-label small fw-semibold">Data do Depósito</label>
               <input type="date" class="form-control" id="dataDeposito" required>
             </div>
-            
+
             <div class="col-sm-6">
               <label for="tipoMaterial" class="form-label small fw-semibold">Tipo de Material</label>
               <select class="form-select" id="tipoMaterial" required>
@@ -118,18 +117,7 @@
                 <th>Bairro</th>
               </tr>
             </thead>
-            <tbody id="listaDepositos">
-              <tr>
-                <td>15/05/2026</td>
-                <td>Plástico</td>
-                <td>Centro</td>
-              </tr>
-              <tr>
-                <td>02/05/2026</td>
-                <td>Vidro</td>
-                <td>São Pedro</td>
-              </tr>
-            </tbody>
+            <tbody id="listaDepositos"></tbody>
           </table>
         </div>
       </div>
@@ -139,55 +127,114 @@
 </div>
 
 <script>
-// Verifica se o usuário está logado ao carregar a página
 document.addEventListener("DOMContentLoaded", function() {
-    const usuarioSalvo = localStorage.getItem('usuarioLogado');
-    
-    if (usuarioSalvo) {
-        const usuario = JSON.parse(usuarioSalvo);
-        
-        // Substitui os textos pelos dados vindos do banco
-        if(usuario.name) {
-            document.getElementById("nomeUsuario").innerText = usuario.name;
-        }
-        if(usuario.email) {
-            document.getElementById("emailUsuario").innerText = usuario.email;
-        }
-    } else {
-        // Redireciona para o cadastro caso não esteja logado
-        window.location.href = 'cadastro.html';
-    }
+  const usuarioSalvo = localStorage.getItem('usuarioLogado');
+
+  if (usuarioSalvo) {
+    const usuario = JSON.parse(usuarioSalvo);
+
+    document.getElementById("nomeUsuario").innerText = usuario.nome || "Nome não informado";
+    document.getElementById("emailUsuario").innerText = usuario.email || "E-mail não informado";
+    document.getElementById("telefoneUsuario").innerText = usuario.telefone || "Telefone não informado";
+    document.getElementById("enderecoUsuario").innerText = usuario.endereco || "Endereço não informado";
+    document.getElementById("bairroUsuario").innerText = usuario.bairro || "Não informado";
+
+    carregarDepositos();
+  } else {
+    window.location.href = 'cadastro.html';
+  }
 });
 
-// Função para deslogar
 function fazerLogout() {
-    localStorage.removeItem('usuarioLogado');
-    window.location.href = 'cadastro.html';
+  localStorage.removeItem('usuarioLogado');
+  window.location.href = 'cadastro.html';
 }
 
 function toggleMenu() {
   document.getElementById("sidebar").classList.toggle("active");
 }
 
-function adicionarDeposito(event) {
+function formatarData(dataInput) {
+  return dataInput.split('-').reverse().join('/');
+}
+
+function adicionarLinhaDeposito(deposito) {
+  const tabela = document.getElementById("listaDepositos");
+  const novaLinha = document.createElement("tr");
+
+  novaLinha.innerHTML = `
+    <td>${deposito.data}</td>
+    <td>${deposito.material}</td>
+    <td>${deposito.bairro}</td>
+  `;
+
+  tabela.insertBefore(novaLinha, tabela.firstChild);
+}
+
+async function carregarDepositos() {
+  const tabela = document.getElementById("listaDepositos");
+  tabela.innerHTML = "";
+
+  try {
+    const resposta = await fetch('/depositos');
+    const depositos = await resposta.json();
+
+    if (depositos.length === 0) {
+      tabela.innerHTML = `
+        <tr>
+          <td colspan="3" class="text-center text-muted">Nenhum depósito registrado ainda.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    depositos.forEach(deposito => {
+      adicionarLinhaDeposito(deposito);
+    });
+
+  } catch (erro) {
+    console.error("Erro ao carregar depósitos:", erro);
+    tabela.innerHTML = `
+      <tr>
+        <td colspan="3" class="text-center text-danger">Erro ao carregar depósitos.</td>
+      </tr>
+    `;
+  }
+}
+
+async function adicionarDeposito(event) {
   event.preventDefault();
 
   const dataInput = document.getElementById("dataDeposito").value;
   const material = document.getElementById("tipoMaterial").value;
   const bairro = document.getElementById("bairroDeposito").value;
 
-  const dataFormatada = dataInput.split('-').reverse().join('/');
-  const tabela = document.getElementById("listaDepositos");
-  const novaLinha = document.createElement("tr");
+  const deposito = {
+    data: formatarData(dataInput),
+    material: material,
+    bairro: bairro
+  };
 
-  novaLinha.innerHTML = `
-    <td>${dataFormatada}</td>
-    <td>${material}</td>
-    <td>${bairro}</td>
-  `;
+  try {
+    const resposta = await fetch('/depositos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(deposito)
+    });
 
-  tabela.insertBefore(novaLinha, tabela.firstChild);
-  document.getElementById("formDeposito").reset();
+    if (!resposta.ok) {
+      alert("Erro ao salvar depósito.");
+      return;
+    }
+
+    adicionarLinhaDeposito(deposito);
+    document.getElementById("formDeposito").reset();
+    alert("Depósito salvo com sucesso!");
+
+  } catch (erro) {
+    console.error("Erro ao salvar depósito:", erro);
+    alert("Erro ao salvar depósito.");
+  }
 }
 </script>
 
