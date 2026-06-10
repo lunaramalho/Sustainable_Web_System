@@ -81,7 +81,7 @@ function mostrarLogin() {
   document.getElementById("tabCadastro").classList.remove("active");
 }
 
-// Lógica de Login
+// Lógica de Login atualizada
 document.getElementById('formLogin').addEventListener('submit', async (e) => {
     e.preventDefault();
     const res = await fetch('/login', {
@@ -89,9 +89,21 @@ document.getElementById('formLogin').addEventListener('submit', async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: e.target.email.value, senha: e.target.senha.value })
     });
+    
     const data = await res.json();
-    if (res.ok) { localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario)); window.location.href = 'perfil.html'; }
-    else { alert("Erro: " + data.mensagem); }
+    
+    if (res.ok) { 
+        // Salva os dados do usuário
+        localStorage.setItem('usuarioLogado', JSON.stringify(data.usuario));
+        
+        // ADICIONE ESTA LINHA: Salva a chave de acesso para usar na hospedagem
+        localStorage.setItem('tokenAcesso', data.token); 
+        
+        window.location.href = 'perfil.html'; 
+    }
+    else { 
+        alert("Erro: " + data.mensagem); 
+    }
 });
 
 // Lógica de Cadastro - MANTENDO O PREVENTDEFAULT

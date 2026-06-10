@@ -104,5 +104,22 @@ function toggleMenu() {
 }
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioSalvo = localStorage.getItem('usuarioLogado');
+    const menuLink = document.querySelector('a[href="perfil.html"]'); // Ou onde estiver o link de Cadastro/Perfil
+    
+    // Se o usuário estiver logado, garante que o link leve ao perfil
+    if (usuarioSalvo) {
+        // Se você tiver um link que diz "Cadastro", pode trocar o texto dele aqui:
+        const linkPerfil = document.querySelector('a[href="cadastro.html"]');
+        if (linkPerfil) {
+            linkPerfil.href = "perfil.html";
+            linkPerfil.innerText = "👤 Meu Perfil";
+        }
+    }
+});
+</script>
+
 </body>
 </html>

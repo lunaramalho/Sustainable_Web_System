@@ -3,23 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <title>Contato - Almenara Sustentável</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <link rel="stylesheet" href="css/style.css">
 </head>
-
 <body>
 
 <div class="sidebar" id="sidebar">
-  <div class="logo">
-    <span>Menu</span>
-  </div>
+  <div class="logo"><span>Menu</span></div>
   <nav class="menu">
     <a href="index.html">🏠 <span>Início</span></a>
-    <a href="cadastro.html">👤 <span>Cadastro</span></a>
+    <a href="cadastro.html" id="linkAcesso">👤 <span>Cadastro</span></a>
     <a href="pontos.html">♻️ <span>Coleta</span></a>
     <a href="educacao.html">📚 <span>Educação</span></a>
     <a href="contato.html" class="active">📞 <span>Contato</span></a>
@@ -32,69 +26,88 @@
     <img src="imagens/bandeiraAlmenara.png" width="45">
     <h2 class="mb-0 titulo-app">Almenara Sustentável</h2>
   </div>
-  <img src="imagens/simboloReciclagem.png" width="40">
 </div>
 
 <div class="content">
-
   <div class="card-custom text-center mb-4">
     <h2 class="fw-bold text-success">Fale Conosco</h2>
-    <p class="text-muted">
-      Tem dúvidas ou sugestões? Entre em contato com nossa equipe.
-    </p>
+    <p class="text-muted">Tem dúvidas ou sugestões? Entre em contato com nossa equipe.</p>
   </div>
 
   <div class="row">
-
     <div class="col-md-5">
       <div class="card-custom h-100">
-        <h5 class="fw-bold text-success mb-3"> Informações</h5>
+        <h5 class="fw-bold text-success mb-3">Informações</h5>
         <p><strong>Email:</strong><br> contato@almenara.com</p>
         <p><strong>Telefone:</strong><br> (33) 99999-9999</p>
-        <p><strong>Endereço:</strong><br>
-        Prefeitura de Almenara<br>
-        Centro - MG</p>
-        <p class="text-muted mt-3">
-          Atendimento de segunda a sexta, das 08h às 17h.
-        </p>
+        <p><strong>Endereço:</strong><br> Prefeitura de Almenara - Centro - MG</p>
       </div>
     </div>
 
     <div class="col-md-7">
       <div class="card-custom">
         <h5 class="fw-bold text-success mb-3">Enviar Mensagem</h5>
-
-        <form action="/enviar-contato" method="POST">
+        <form id="formContato" onsubmit="enviarMensagem(event)">
           <div class="mb-3">
             <label class="form-label">Nome</label>
-            <input type="text" name="nome" class="form-control" placeholder="Seu nome" required>
+            <input type="text" id="nome" class="form-control" placeholder="Seu nome" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" name="email" class="form-control" placeholder="Seu email" required>
+            <input type="email" id="email" class="form-control" placeholder="Seu email" required>
           </div>
-
           <div class="mb-3">
             <label class="form-label">Mensagem</label>
-            <textarea name="mensagem" class="form-control" rows="4" placeholder="Digite sua mensagem" required></textarea>
+            <textarea id="mensagem" class="form-control" rows="4" placeholder="Digite sua mensagem" required></textarea>
           </div>
-
-          <button type="submit" class="btn btn-custom w-100">Enviar Mensagem</button>
+          <button type="submit" class="btn btn-success w-100">Enviar Mensagem</button>
         </form>
-
       </div>
     </div>
-
   </div>
-
 </div>
 
 <script>
-function toggleMenu() {
-  document.getElementById("sidebar").classList.toggle("active");
-}
-</script>
+function toggleMenu() { document.getElementById("sidebar").classList.toggle("active"); }
 
+async function enviarMensagem(event) {
+    event.preventDefault(); // Isso impede a página de recarregar e quebrar o layout
+
+    const dados = {
+        nome: document.getElementById("nome").value,
+        email: document.getElementById("email").value,
+        mensagem: document.getElementById("mensagem").value
+    };
+
+    try {
+        const res = await fetch('http://localhost:8000/api/contato', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest' 
+            },
+            body: JSON.stringify(dados)
+        });
+
+        if (res.ok) {
+            alert("Mensagem enviada com sucesso!");
+            document.getElementById("formContato").reset(); // Limpa o formulário após enviar
+        } else {
+            // Se cair aqui, é porque deu erro no Controller ou na Rota
+            alert("Erro ao enviar. Verifique o console.");
+        }
+    } catch (err) { 
+        alert("Erro de conexão com o servidor."); 
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (localStorage.getItem('usuarioLogado')) {
+        const linkPerfil = document.getElementById("linkAcesso");
+        linkPerfil.href = "perfil.html";
+        linkPerfil.innerText = "👤 Meu Perfil";
+    }
+});
+</script>
 </body>
 </html>

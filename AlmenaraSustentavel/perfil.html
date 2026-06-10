@@ -37,20 +37,14 @@
     <div class="col-md-5 mb-4">
       <div class="card-custom border shadow-sm">
         <div class="text-center mb-3">
-          <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="#2E7D32" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg>
           <h4 class="fw-bold mt-2 mb-0" id="nomeUsuario">Carregando...</h4>
-          <span class="badge bg-success-subtle text-success mt-1">Cidadão Consciente</span>
         </div>
-
         <hr class="text-muted">
-
         <div class="mb-3">
           <label class="text-muted small d-block">E-mail</label>
           <span class="fw-semibold" id="emailUsuario">Carregando...</span>
         </div>
+<<<<<<< HEAD
 
         <div class="mb-3">
           <label class="text-muted small d-block">Telefone</label>
@@ -68,12 +62,15 @@
         </div>
 
         <button class="btn btn-success w-100 mt-2">Editar Dados</button>
+=======
+>>>>>>> 21126c3 (ajustei alguns detalhes que precisavam para o back)
       </div>
     </div>
 
     <div class="col-md-7">
       <div class="card-custom border shadow-sm mb-4">
         <h5 class="fw-bold text-success mb-3">➕ Registrar Novo Depósito</h5>
+<<<<<<< HEAD
 
         <form id="formDeposito" onsubmit="adicionarDeposito(event)">
           <div class="row g-3">
@@ -102,12 +99,29 @@
             <div class="col-12 text-end">
               <button type="submit" class="btn btn-success px-4">Salvar no Quadro</button>
             </div>
+=======
+        <form id="formDeposito" onsubmit="adicionarDeposito(event)">
+          <div class="row g-3">
+              <div class="col-sm-6"><input type="date" class="form-control" id="dataDeposito" required></div>
+              <div class="col-sm-6">
+                <select class="form-select" id="tipoMaterial" required>
+                  <option value="" selected disabled>Selecione...</option>
+                  <option value="Plástico">Plástico</option>
+                  <option value="Papel">Papel</option>
+                  <option value="Vidro">Vidro</option>
+                  <option value="Metal">Metal</option>
+                </select>
+              </div>
+              <div class="col-12"><input type="text" class="form-control" id="bairroDeposito" placeholder="Bairro" required></div>
+              <div class="col-12 text-end"><button type="submit" class="btn btn-success px-4">Salvar no Quadro</button></div>
+>>>>>>> 21126c3 (ajustei alguns detalhes que precisavam para o back)
           </div>
         </form>
       </div>
 
       <div class="card-custom border shadow-sm">
         <h5 class="fw-bold text-success mb-3">📋 Quadro de Depósitos</h5>
+<<<<<<< HEAD
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
@@ -120,13 +134,19 @@
             <tbody id="listaDepositos"></tbody>
           </table>
         </div>
+=======
+        <table class="table table-hover">
+            <thead><tr><th>Data</th><th>Material</th><th>Bairro</th></tr></thead>
+            <tbody id="listaDepositos"></tbody>
+        </table>
+>>>>>>> 21126c3 (ajustei alguns detalhes que precisavam para o back)
       </div>
-
     </div>
   </div>
 </div>
 
 <script>
+<<<<<<< HEAD
 document.addEventListener("DOMContentLoaded", function() {
   const usuarioSalvo = localStorage.getItem('usuarioLogado');
 
@@ -148,12 +168,78 @@ document.addEventListener("DOMContentLoaded", function() {
 function fazerLogout() {
   localStorage.removeItem('usuarioLogado');
   window.location.href = 'cadastro.html';
+=======
+// Se a rota no seu Laravel for /api/depositos, mantenha este:
+const URL_API = 'http://localhost:8000/api';
+
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioSalvo = localStorage.getItem('usuarioLogado');
+    if (usuarioSalvo) {
+        const usuario = JSON.parse(usuarioSalvo);
+        document.getElementById("nomeUsuario").innerText = usuario.name;
+        document.getElementById("emailUsuario").innerText = usuario.email;
+        carregarDepositos();
+    } else {
+        window.location.href = 'cadastro.html';
+    }
+});
+
+async function carregarDepositos() {
+    const token = localStorage.getItem('tokenAcesso');
+    try {
+        const res = await fetch(`${URL_API}/depositos`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+            const lista = await res.json();
+            const tbody = document.getElementById("listaDepositos");
+            tbody.innerHTML = "";
+            lista.forEach(dep => {
+                tbody.innerHTML += `<tr><td>${dep.data}</td><td>${dep.material}</td><td>${dep.bairro}</td></tr>`;
+            });
+        }
+    } catch (err) { console.error("Erro ao carregar:", err); }
 }
 
-function toggleMenu() {
-  document.getElementById("sidebar").classList.toggle("active");
+async function adicionarDeposito(event) {
+  event.preventDefault();
+  const token = localStorage.getItem('tokenAcesso');
+  const deposito = {
+    data: document.getElementById("dataDeposito").value,
+    material: document.getElementById("tipoMaterial").value,
+    bairro: document.getElementById("bairroDeposito").value
+  };
+
+  try {
+      const res = await fetch(`${URL_API}/depositos`, {
+        method: 'POST',
+        headers: { 
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify(deposito)
+      });
+
+      if (res.ok) {
+        alert("Salvo com sucesso!");
+        location.reload();
+      } else {
+        alert("Erro ao salvar. Verifique o console (F12).");
+      }
+  } catch (e) { alert("Erro de conexão."); }
 }
 
+function fazerLogout() {
+    localStorage.removeItem('usuarioLogado');
+    localStorage.removeItem('tokenAcesso');
+    window.location.href = 'cadastro.html';
+>>>>>>> 21126c3 (ajustei alguns detalhes que precisavam para o back)
+}
+
+function toggleMenu() { document.getElementById("sidebar").classList.toggle("active"); }
+</script>
+
+<<<<<<< HEAD
 function formatarData(dataInput) {
   return dataInput.split('-').reverse().join('/');
 }
@@ -236,6 +322,23 @@ async function adicionarDeposito(event) {
     alert("Erro ao salvar depósito.");
   }
 }
+=======
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const usuarioSalvo = localStorage.getItem('usuarioLogado');
+    const menuLink = document.querySelector('a[href="perfil.html"]'); // Ou onde estiver o link de Cadastro/Perfil
+    
+    // Se o usuário estiver logado, garante que o link leve ao perfil
+    if (usuarioSalvo) {
+        // Se você tiver um link que diz "Cadastro", pode trocar o texto dele aqui:
+        const linkPerfil = document.querySelector('a[href="cadastro.html"]');
+        if (linkPerfil) {
+            linkPerfil.href = "perfil.html";
+            linkPerfil.innerText = "👤 Meu Perfil";
+        }
+    }
+});
+>>>>>>> 21126c3 (ajustei alguns detalhes que precisavam para o back)
 </script>
 
 </body>
